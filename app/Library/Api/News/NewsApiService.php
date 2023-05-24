@@ -7,11 +7,28 @@ use App\Enums\ApiNewsEnum;
 use App\Library\Api\News\Strategies\NewsApiStrategy;
 use App\Library\Api\News\Strategies\TheGuardianStrategy;
 use App\Library\Api\News\Strategies\NewYorkTimesStrategy;
+use Illuminate\Support\Facades\Date;
 
 class NewsApiService {
 
+    private int $page;
+    private array $keywords;
 
-    public function fetchData(ApiNewsEnum $apiNewsEnum): array{
+    private string $fromDate;
+
+    private array $sources;
+
+
+    public function __construct(int $page, array $keywords, string $fromDate, array $sources)
+    {
+        $this->page = $page;
+        $this->keywords = $keywords;
+        $this->fromDate = $fromDate;
+        $this->sources = $sources;
+    }
+
+
+    public function fetchDataByStrategy(ApiNewsEnum $apiNewsEnum): array{
 
         $strategyClass = match ($apiNewsEnum){
             ApiNewsEnum::NewsApi => new NewsApiStrategy(),
@@ -20,7 +37,16 @@ class NewsApiService {
             default => throw new \InvalidArgumentException(message: 'Unhandled Strategy')
         };
 
-        return $strategyClass->fetch();
+        $queryParms = $strategyClass->getQueryBuilder()->buildQuery(
+            $this->page,
+            $this->keywords,
+            $this->fromDate,
+            $this->sources,
+            $strategyClass->getAuthKey(),
+            $apiNewsEnum
+        );
+
+        return $strategyClass->fetch($queryParms);
 
     }
 

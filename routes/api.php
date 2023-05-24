@@ -20,3 +20,7 @@ Route::controller(AuthController::class)->prefix('auth')->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
 });
+
+Route::controller(\App\Http\Controllers\API\ArticlesController::class)->prefix('article')->group(function () {
+    Route::get('find', 'find');
+});
