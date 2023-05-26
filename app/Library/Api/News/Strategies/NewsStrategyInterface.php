@@ -11,4 +11,6 @@ interface NewsStrategyInterface {
     public function getQueryBuilder():QueryBuilder;
 
     public function getAuthKey(): string;
+
+    public function transformResponse($response): array;
 }

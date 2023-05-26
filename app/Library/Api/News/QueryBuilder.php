@@ -44,7 +44,7 @@ class QueryBuilder {
             $queryParms[$this->pageKey] = $page;
         }
         if($keywords){
-            $queryParms[$this->keywordKey] = $keywords;
+            $queryParms[$this->keywordKey] = implode('AND', $keywords);
         }
         if($fromDate){
             $queryParms[$this->fromDateKey] = $fromDate;
