@@ -6,8 +6,6 @@ use Illuminate\Support\Arr;
 
 class TransformedArticle
 {
-
-
     private array|null $source = null;
     private string|null $author = null;
     private string $title;

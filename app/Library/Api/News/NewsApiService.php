@@ -4,11 +4,11 @@ namespace App\Library\Api\News;
 
 
 use App\Enums\ApiNewsEnum;
+use App\Library\Api\News\Strategies\AbstractApiStrategy;
 use App\Library\Api\News\Strategies\NewsApiStrategy;
 use App\Library\Api\News\Strategies\NewsStrategyInterface;
 use App\Library\Api\News\Strategies\TheGuardianStrategy;
 use App\Library\Api\News\Strategies\NewYorkTimesStrategy;
-use Illuminate\Support\Facades\Date;
 
 class NewsApiService {
 
@@ -54,7 +54,7 @@ class NewsApiService {
         );
     }
 
-    private function getApiStrategyByKey(ApiNewsEnum $apiNewsEnum): NewsStrategyInterface{
+    private function getApiStrategyByKey(ApiNewsEnum $apiNewsEnum): AbstractApiStrategy{
         return match ($apiNewsEnum){
             ApiNewsEnum::NewsApi => new NewsApiStrategy(),
             ApiNewsEnum::TheGuardian => new TheGuardianStrategy(),
