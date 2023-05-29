@@ -9,18 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 
-class NewsApiStrategy implements NewsStrategyInterface {
-
-    public function getQueryBuilder(): QueryBuilder{
-        return new QueryBuilder('page', 'q','from','source','pagesize','apiKey');
-    }
-
-    public function fetch(string $queryParms): array{
-
-        $response = Http::get('https://newsapi.org/v2/everything?'.$queryParms);
-        return $response->json();
-    }
-
+class NewsApiStrategy extends  AbstractApiStrategy {
 
     public function getAuthKey(): string
     {
@@ -47,5 +36,39 @@ class NewsApiStrategy implements NewsStrategyInterface {
         }
 
         return $result;
+    }
+    public function getPageQueryKey(): string
+    {
+        return 'page';
+    }
+
+    public function getKeywordQueryKey(): string
+    {
+        return 'q';
+    }
+
+    public function getFromDateQueryKey(): string
+    {
+        return 'from';
+    }
+
+    public function getSourceQueryKey(): string
+    {
+        return 'source';
+    }
+
+    public function getPageSizeQueryKey(): string
+    {
+        return 'pagesize';
+    }
+
+    public function getApiAuthQueryKey(): string
+    {
+        return 'apiKey';
+    }
+
+    public function getEndpointURL(): string
+    {
+        return 'https://newsapi.org/v2/everything';
     }
 }

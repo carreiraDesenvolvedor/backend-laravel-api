@@ -11,10 +11,10 @@ class TransformedArticle
     private array|null $source = null;
     private string|null $author = null;
     private string $title;
-    private string $description;
+    private string|null $description = null;
     private string $urlArticle;
     private string|null $urlThumbnail = null;
-    private string $publishedAt;
+    private int $publishedAt;
 
     /**
      * @param string|null $name
@@ -51,11 +51,13 @@ class TransformedArticle
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(string|null $description): void
     {
-        $this->description = $description ? substr($description, 0, 200).'...': null;
+        if(!$description)
+            return;
+        $this->description = mb_convert_encoding(substr($description, 0, 300).'...', 'UTF-8', 'UTF-8');
     }
 
 
@@ -80,7 +82,7 @@ class TransformedArticle
      */
     public function setPublishedAt(string $publishedAt): void
     {
-        $this->publishedAt = $publishedAt;
+        $this->publishedAt = strtotime($publishedAt);
     }
 
     public function __toArray(): array

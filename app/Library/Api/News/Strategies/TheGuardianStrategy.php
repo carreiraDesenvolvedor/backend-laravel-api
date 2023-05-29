@@ -7,16 +7,12 @@ use App\Library\Api\News\TransformedArticle;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
-class TheGuardianStrategy implements NewsStrategyInterface
+class TheGuardianStrategy extends AbstractApiStrategy
 {
 
-    public function getQueryBuilder(): QueryBuilder{
-        return new QueryBuilder('page', 'q','from-date','','page-size','api-key');
-    }
-    public function fetch(string $queryParms): array
+    public function getEndpointURL(): string
     {
-        $response = Http::get('https://content.guardianapis.com/search?'.$queryParms.$this->getExtraQueryParms());
-        return $response->json();
+        return 'https://content.guardianapis.com/search';
     }
 
     public function getAuthKey(): string
@@ -34,8 +30,8 @@ class TheGuardianStrategy implements NewsStrategyInterface
             $transformedArticle = new TransformedArticle();
             $transformedArticle->setSource(Arr::get($article, 'fields.publication'));
             $transformedArticle->setTitle(Arr::get($article, 'webTitle'));
-            $transformedArticle->setDescription(Arr::get($article, 'fields.body'));
-            $transformedArticle->setUrlArticle(Arr::get($article, 'apiUrl'));
+            $transformedArticle->setDescription(Arr::get($article, 'fields.bodyText'));
+            $transformedArticle->setUrlArticle(Arr::get($article, 'webUrl'));
             $transformedArticle->setUrlThumbnail(Arr::get($article, 'fields.thumbnail'));
             $transformedArticle->setPublishedAt(Arr::get($article, 'webPublicationDate'));
 
@@ -47,7 +43,37 @@ class TheGuardianStrategy implements NewsStrategyInterface
 
     public function getExtraQueryParms(): string{
         return '&'.http_build_query([
-            'show-fields'=>'thumbnail,publication,body'
+            'show-fields'=>'thumbnail,publication,bodyText'
         ]);
+    }
+
+    public function getPageQueryKey(): string
+    {
+        return 'page';
+    }
+
+    public function getKeywordQueryKey(): string
+    {
+        return 'q';
+    }
+
+    public function getFromDateQueryKey(): string
+    {
+        return 'from-date';
+    }
+
+    public function getSourceQueryKey(): string
+    {
+        return '';
+    }
+
+    public function getPageSizeQueryKey(): string
+    {
+        return 'page-size';
+    }
+
+    public function getApiAuthQueryKey(): string
+    {
+        return 'api-key';
     }
 }

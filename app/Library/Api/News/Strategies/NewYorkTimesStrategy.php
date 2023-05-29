@@ -7,15 +7,11 @@ use App\Library\Api\News\TransformedArticle;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
-class NewYorkTimesStrategy implements NewsStrategyInterface {
-    public function getQueryBuilder(): QueryBuilder{
-        return new QueryBuilder('page', 'q','from-date','','page-size','api-key');
-    }
-    public function fetch(string $queryParms): array
+class NewYorkTimesStrategy extends AbstractApiStrategy {
+
+    public function getEndpointURL(): string
     {
-        //"https://api.nytimes.com/svc/search/v2/articlesearch.json?page-size=10&api-key=YQPibSFfSHo0cqzlQVe09N0PAmKba67c&page=1&q=brazil&from-date=2023-05-01" // app/Library/Api/News/Strategies/NewYorkTimesStrategy.php:16
-        $response = Http::get('https://api.nytimes.com/svc/search/v2/articlesearch.json?'.$queryParms);
-        return $response->json();
+        return 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
     }
 
     public function getAuthKey(): string
@@ -42,5 +38,40 @@ class NewYorkTimesStrategy implements NewsStrategyInterface {
         }
 
         return $result;
+    }
+
+    public function getPageQueryKey(): string
+    {
+        return 'page';
+    }
+
+    public function getKeywordQueryKey(): string
+    {
+        return 'q';
+    }
+
+    public function getFromDateQueryKey(): string
+    {
+        return 'pub_date';
+    }
+
+    public function getSourceQueryKey(): string
+    {
+        return 'fq';
+    }
+
+    public function getPageSizeQueryKey(): string
+    {
+        return '';
+    }
+
+    public function getApiAuthQueryKey(): string
+    {
+        return 'api-key';
+    }
+
+    public function buildKeywordsQueryParms(array $keywords): string
+    {
+        return implode(',', $keywords);
     }
 }

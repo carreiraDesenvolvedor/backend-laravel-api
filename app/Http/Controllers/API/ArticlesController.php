@@ -16,17 +16,22 @@ class ArticlesController extends Controller
     {
         $this->middleware('auth:api');
     }
-    public function find(Request $request):JsonResponse{
+    public function find(Request $request): JsonResponse
+    {
+
+        $this->validateRequest($request, [
+            'keywords' => 'required|string',
+        ]);
 
         $page = $request->get('page', 1);
-        $keywords = $request->get('keywords', []);
-        $fromDate = $request->get('fromDate', date('Y-m-d',strtotime("-7 day")));
+        $keywords = explode(',', $request->get('keywords', ''));
+        $fromDate = $request->get('fromDate', date('Y-m-d', strtotime("-7 day")));
         $sources = $request->get('sources', []);
 
         $newsApiService = new NewsApiService($page, $keywords, $fromDate, $sources);
 
         return response()->json([
-            'data'=>$newsApiService->getArticles()
+            'data' => $newsApiService->getArticles()
         ]);
     }
 

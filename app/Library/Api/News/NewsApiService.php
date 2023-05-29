@@ -35,24 +35,23 @@ class NewsApiService {
         $result = [];
         foreach(ApiNewsEnum::cases() as $apiNewsEnum){
             $apiStrategyInstance = $this->getApiStrategyByKey($apiNewsEnum);
-            $response = $this->fetchDataByStrategy($apiStrategyInstance, $apiNewsEnum);
-            $result = array_merge($result, $apiStrategyInstance->transformResponse($response));
+            $response = $this->fetchDataByStrategy($apiStrategyInstance);
+            $result = array_merge($result, $response);
         }
         return $result;
     }
 
-
-
-
-    public function fetchDataByStrategy(NewsStrategyInterface $apiStrategyInstance, ApiNewsEnum $apiNewsEnum): array{
-        return $apiStrategyInstance->fetch($apiStrategyInstance->getQueryBuilder()->buildQuery(
+    /**
+     * @param NewsStrategyInterface $apiStrategyInstance
+     * @return TransformedArticle[]
+     */
+    public function fetchDataByStrategy(NewsStrategyInterface $apiStrategyInstance): array{
+        return $apiStrategyInstance->fetch(
             $this->page,
             $this->keywords,
             $this->fromDate,
             $this->sources,
-            $apiStrategyInstance->getAuthKey(),
-            $apiNewsEnum
-        ));
+        );
     }
 
     private function getApiStrategyByKey(ApiNewsEnum $apiNewsEnum): NewsStrategyInterface{

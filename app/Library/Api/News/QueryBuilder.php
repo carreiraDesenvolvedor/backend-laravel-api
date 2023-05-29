@@ -4,10 +4,13 @@ namespace App\Library\Api\News;
 
 
 use App\Enums\ApiNewsEnum;
+use App\Library\Api\News\Strategies\AbstractApiStrategy;
 
 class QueryBuilder {
 
     const PAGE_SIZE = 10;
+
+    private AbstractApiStrategy $_apiStrategy;
 
     private string $pageKey;
     private string $keywordKey;
@@ -22,38 +25,33 @@ class QueryBuilder {
 
 
 
-    public function __construct(string $pageKey, string $keywordKey, string $fromDateKey, string $sourceKey,string $pageSizeKey, string $apiAuthKey)
+    public function __construct(AbstractApiStrategy $apiStrategy)
     {
-        $this->pageKey = $pageKey;
-        $this->keywordKey = $keywordKey;
-        $this->fromDateKey = $fromDateKey;
-        $this->sourceKey = $sourceKey;
-        $this->pageSizeKey = $pageSizeKey;
-        $this->apiAuthKey = $apiAuthKey;
+        $this->_apiStrategy = $apiStrategy;
     }
 
 
-    public function buildQuery(int $page, array $keywords, string $fromDate, array $sources, string $apiAuthKey, ApiNewsEnum $apiNewsStrategy ): string{
+    public function buildQuery(int $page, array $keywords, string $fromDate, array $sources): string{
 
-        $queryParms = [
-            $this->pageSizeKey =>self::PAGE_SIZE,
-            $this->apiAuthKey => $apiAuthKey
+        $query = [
+            $this->_apiStrategy->getPageQueryKey() =>self::PAGE_SIZE,
+            $this->_apiStrategy->getApiAuthQueryKey() => $this->_apiStrategy->getAuthKey()
         ];
 
         if($page){
-            $queryParms[$this->pageKey] = $page;
+            $query[$this->_apiStrategy->getPageQueryKey()] = $page;
         }
         if($keywords){
-            $queryParms[$this->keywordKey] = implode('AND', $keywords);
+            $query[$this->_apiStrategy->getKeywordQueryKey()] = $this->_apiStrategy->buildKeywordsQueryParms($keywords);
         }
         if($fromDate){
-            $queryParms[$this->fromDateKey] = $fromDate;
+            $query[$this->_apiStrategy->getFromDateQueryKey()] = $fromDate;
         }
         if($sources){
-            $queryParms[$this->sourceKey] = $sources;
+            $query[$this->_apiStrategy->getSourceQueryKey()] = $sources;
         }
 
-        return http_build_query($queryParms);
+        return http_build_query($query);
 
     }
 
