@@ -2,12 +2,8 @@
 
 namespace App\Library\Api\News\Strategies;
 
-use App\Enums\ApiNewsQueryFiltersEnum;
-use App\Library\Api\News\QueryBuilder;
 use App\Library\Api\News\TransformedArticle;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\Http;
 
 class NewsApiStrategy extends  AbstractApiStrategy {
 
@@ -16,6 +12,10 @@ class NewsApiStrategy extends  AbstractApiStrategy {
         return '5e5b74d55a4148bea24f7c00b1422c61';
     }
 
+    /**
+     * @param $response
+     * @return TransformedArticle[]
+     */
     public function transformResponse($response): array
     {
         if(Arr::get($response, 'status') !== 'ok')
