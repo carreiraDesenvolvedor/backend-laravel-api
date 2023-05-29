@@ -135,6 +135,7 @@ Where the only thing each APIStrategy needs to do is return results based on tha
 </p>
 
 <h4>Example Strategy transforming the Results(NewsAPIStrategy.php)</h4>
+
 ```
 <?php
 
