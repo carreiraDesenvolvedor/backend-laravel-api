@@ -5,7 +5,7 @@
 ## 🚀 Demo
 
 <p align="left">
-    <a href="" target="_blank"><b>Clique here to see a Live Demo</b></a>
+    <a href="https://carreiradesenvolvedor.github.io/react-news-app/" target="_blank"><b>Clique here to see a Live Demo</b></a>
 </p>
 
 ## 🛠️ Installation Steps
@@ -46,7 +46,7 @@ php composer.phar install
 ```bash
   #Only run this command if you are not inside the project folder after opened a new terminal
   cd backend-laravel-api
-  
+
   #creating the JWT Secret
   ./vendor/bin/sail php artisan jwt:secret
 ```
@@ -54,6 +54,7 @@ php composer.phar install
 🌟 You are all set the api is running over the port 80!
 
 ## 💬️ How the APIs were used
+
 <h4>API's being used</h4>
 <ul>
     <li>
@@ -94,7 +95,7 @@ use Illuminate\Support\Arr;
 class NewsAPIStrategy extends  AbstractApiStrategy {
 
     ...
-    
+
     public function getAuthKey(): string
     {
         return '5e5b74d55a4148bea24f7c00b1422c61';
@@ -119,7 +120,7 @@ class NewsAPIStrategy extends  AbstractApiStrategy {
     {
         return 'https://newsapi.org/v2/everything';
     }
-    
+
     ...
 }
 
@@ -147,7 +148,7 @@ use Illuminate\Support\Arr;
 class NewsAPIStrategy extends  AbstractApiStrategy {
 
     ...
-    
+
     /**
      * @param $response
      * @return TransformedArticle[]
@@ -173,21 +174,21 @@ class NewsAPIStrategy extends  AbstractApiStrategy {
 
         return $result;
     }
-   
+
    ...
 }
 
 ```
 
 ### Folder Structure
-<p align="center"><img src="./public/images/readme/folders.png" width="200" alt="Iphone Device" /></p>
 
+<p align="center"><img src="./public/images/readme/folders.png" width="200" alt="Iphone Device" /></p>
 
 ## 💻 Built with
 
-- [Laravel](https://laravel.com/docs/10.x)
-- [Mysql](https://www.mysql.com/): For Database
-- [Laravel Sail](https://laravel.com/docs/10.x/sail): For Docker Containerization
+-   [Laravel](https://laravel.com/docs/10.x)
+-   [Mysql](https://www.mysql.com/): For Database
+-   [Laravel Sail](https://laravel.com/docs/10.x/sail): For Docker Containerization
 
 <hr>
 <p align="center">
