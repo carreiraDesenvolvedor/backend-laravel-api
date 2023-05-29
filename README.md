@@ -28,10 +28,11 @@ cd backend-laravel-api
 php composer.phar install
 ```
 
-4. Run the Containers(Using Sail)
+4. Setup the .env file and application key
 
 ```bash
-./vendor/bin/sail up
+ cp .env.example .env
+ php artisan key:generate
 ```
 
 5. Run the Containers(Using Sail)
@@ -40,7 +41,17 @@ php composer.phar install
 ./vendor/bin/sail up
 ```
 
-🌟 You are all set!
+5. Open a new terminal to generate the JWT Secret
+
+```bash
+  #Only run this command if you are not inside the project folder after opened a new terminal
+  cd backend-laravel-api
+  
+  #creating the JWT Secret
+  ./vendor/bin/sail php artisan jwt:secret
+```
+
+🌟 You are all set the api is running over the port 80!
 
 ## 💻 Built with
 
