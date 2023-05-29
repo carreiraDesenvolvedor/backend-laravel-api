@@ -5,7 +5,7 @@ namespace App\Library\Api\News;
 
 use App\Enums\ApiNewsEnum;
 use App\Library\Api\News\Strategies\AbstractApiStrategy;
-use App\Library\Api\News\Strategies\NewsApiStrategy;
+use App\Library\Api\News\Strategies\NewsAPIStrategy;
 use App\Library\Api\News\Strategies\NewsStrategyInterface;
 use App\Library\Api\News\Strategies\TheGuardianStrategy;
 use App\Library\Api\News\Strategies\NewYorkTimesStrategy;
@@ -56,7 +56,7 @@ class NewsApiService {
 
     private function getApiStrategyByKey(ApiNewsEnum $apiNewsEnum): AbstractApiStrategy{
         return match ($apiNewsEnum){
-            ApiNewsEnum::NewsApi => new NewsApiStrategy(),
+            ApiNewsEnum::NewsApi => new NewsAPIStrategy(),
             ApiNewsEnum::TheGuardian => new TheGuardianStrategy(),
             ApiNewsEnum::NewYorkTimes => new NewYorkTimesStrategy(),
             default => throw new \InvalidArgumentException(message: 'Unhandled Strategy')

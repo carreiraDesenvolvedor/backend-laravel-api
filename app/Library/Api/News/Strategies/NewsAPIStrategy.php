@@ -5,7 +5,7 @@ namespace App\Library\Api\News\Strategies;
 use App\Library\Api\News\TransformedArticle;
 use Illuminate\Support\Arr;
 
-class NewsApiStrategy extends  AbstractApiStrategy {
+class NewsAPIStrategy extends  AbstractApiStrategy {
 
     public function getAuthKey(): string
     {

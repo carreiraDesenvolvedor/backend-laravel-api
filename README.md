@@ -91,7 +91,7 @@ namespace App\Library\Api\News\Strategies;
 use App\Library\Api\News\TransformedArticle;
 use Illuminate\Support\Arr;
 
-class NewsApiStrategy extends  AbstractApiStrategy {
+class NewsAPIStrategy extends  AbstractApiStrategy {
 
     ...
     
@@ -144,7 +144,7 @@ namespace App\Library\Api\News\Strategies;
 use App\Library\Api\News\TransformedArticle;
 use Illuminate\Support\Arr;
 
-class NewsApiStrategy extends  AbstractApiStrategy {
+class NewsAPIStrategy extends  AbstractApiStrategy {
 
     ...
     
